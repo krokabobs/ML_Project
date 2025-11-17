@@ -1,2 +1,2 @@
 # ML_Project
-Logistic regression classifier
+Logistic Regression classifier
