@@ -58,8 +58,8 @@ public class Main {
 
         DataSet wineDataset = new DataSet("data/default.csv", DataSet.CSVFILE);
         LRClassifier classifier = new LRClassifier();
-<<<<<<< HEAD
-        classifier.setIterations(10);
+
+        classifier.setIterations(1);
         classifier.train(wineDataset);
         int correct = 0;
         for (Example example : wineDataset.getData()) {
@@ -69,10 +69,8 @@ public class Main {
             }
         }
         System.out.println("Accuracy: " + ((double) correct / wineDataset.getData().size()));
-=======
+
         classifier.setIterations(1);
         classifier.train(wineDataset);
-        
->>>>>>> 9bc7108 (implementation done)
     }
 }
