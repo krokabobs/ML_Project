@@ -80,24 +80,24 @@ public class LRClassifier implements Classifier {
 		for (int iter = 0; iter < iterations; iter++){
 			int exampleCount = 0;
 			for (Example example : data.getData()){
-				System.out.println("Example" + exampleCount++);
+				// System.out.println("Example" + exampleCount++);
 
 				double prediction = getPrediction(example);
-				System.out.println("Prediction: " + prediction);
+				// System.out.println("Prediction: " + prediction);
 
 				double label = example.getLabel();
 				double diff = prediction - label;
-				System.out.println("diff: " + diff);
+				// System.out.println("diff: " + diff);
 
 				for (Integer feature : weights.keySet()){
 					double oldWeight = weights.get(feature);
 					double featureValue = example.getFeature(feature);
 					double newWeight = oldWeight - alpha * diff * featureValue;
-					System.out.println("Feature " + feature + " old weight: " + oldWeight + " new weight: " + newWeight);
+					// System.out.println("Feature " + feature + " old weight: " + oldWeight + " new weight: " + newWeight);
 					weights.put(feature, newWeight);
 				}
 				b = b - alpha * diff;
-				System.out.println("New b: " + b);
+				// System.out.println("New b: " + b);
 			}
 		}
 	}
