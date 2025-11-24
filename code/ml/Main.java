@@ -10,25 +10,33 @@ import ml.Experimenter;
 
 public class Main {
     public static void main(String[] args) {
-        int numSplits = 10;
-        DataSet wineDataset = new DataSet("data/wine.train", DataSet.TEXTFILE);
-        CrossValidationSet cvSet = new CrossValidationSet(wineDataset, numSplits);
-        DataSetSplit split = cvSet.getValidationSet(10);
-        DataSet trainData = split.getTrain();
-        DataSet testData = split.getTest();
-        ClassifierFactory factory = new ClassifierFactory(ClassifierFactory.LOGISTIC_REGRESSION, 1);
+        DataSet wineDataset = new DataSet("data/wines.train", DataSet.TEXTFILE);
+        ClassifierFactory factory = new ClassifierFactory(ClassifierFactory.LOGISTIC_REGRESSION, 10);
         AVAClassifier classifier = new AVAClassifier(factory);
-        classifier.train(trainData);
+        OVAClassifier ovaClassifier = new OVAClassifier(factory);
+        classifier.train(wineDataset);
         int correct = 0;
-        for (Example example : testData.getData()) {
+        for (Example example : wineDataset.getData()) {
             double prediction = classifier.classify(example);
             if (Math.abs(prediction - example.getLabel()) < 0.001) {
                 correct++;
             }
         }
-        System.out.println("Accuracy: " + ((double) correct / testData.getData().size()));
+        System.out.println("Accuracy: " + ((double) correct / wineDataset.getData().size()));
         System.out.println("Number of correct predictions: " + correct);
-        System.out.println("Number of test examples: " + testData.getData().size());
+        System.out.println("Number of test examples: " + wineDataset.getData().size());
+
+        ovaClassifier.train(wineDataset);
+        int ovaCorrect = 0;
+        for (Example example : wineDataset.getData()) {
+            double prediction = ovaClassifier.classify(example);
+            if (Math.abs(prediction - example.getLabel()) < 0.001) {
+                ovaCorrect++;
+            }
+        }
+        System.out.println("Accuracy: " + ((double) ovaCorrect / wineDataset.getData().size()));
+        System.out.println("Number of correct predictions: " + ovaCorrect);
+        System.out.println("Number of test examples: " + wineDataset.getData().size());
     }
 }
 

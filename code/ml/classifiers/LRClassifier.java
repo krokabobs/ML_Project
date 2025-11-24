@@ -113,6 +113,6 @@ public class LRClassifier implements Classifier {
 	
 	@Override
 	public double confidence(Example example) {
-		return getPrediction(example);
+		return Math.abs(getPrediction(example) - 0.5);
 	}
 }
