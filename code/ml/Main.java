@@ -10,33 +10,16 @@ import ml.Experimenter;
 
 public class Main {
     public static void main(String[] args) {
-        DataSet wineDataset = new DataSet("data/wines.train", DataSet.TEXTFILE);
-        ClassifierFactory factory = new ClassifierFactory(ClassifierFactory.LOGISTIC_REGRESSION, 10);
-        AVAClassifier classifier = new AVAClassifier(factory);
-        OVAClassifier ovaClassifier = new OVAClassifier(factory);
-        classifier.train(wineDataset);
-        int correct = 0;
-        for (Example example : wineDataset.getData()) {
-            double prediction = classifier.classify(example);
-            if (Math.abs(prediction - example.getLabel()) < 0.001) {
-                correct++;
-            }
-        }
-        System.out.println("Accuracy: " + ((double) correct / wineDataset.getData().size()));
-        System.out.println("Number of correct predictions: " + correct);
-        System.out.println("Number of test examples: " + wineDataset.getData().size());
+        // Create experimenter
+        Experimenter experimenter = new Experimenter();
+        
+        // Run MultiLR performance assessment
+        experimenter.assessLRPerformance("data/wines.train");
+        
+        // Run comparison between Naive Bayes and Multinomial Logistic Regression
+        experimenter.compareNaiveBayesAndLR("data/wines.train");
 
-        ovaClassifier.train(wineDataset);
-        int ovaCorrect = 0;
-        for (Example example : wineDataset.getData()) {
-            double prediction = ovaClassifier.classify(example);
-            if (Math.abs(prediction - example.getLabel()) < 0.001) {
-                ovaCorrect++;
-            }
-        }
-        System.out.println("Accuracy: " + ((double) ovaCorrect / wineDataset.getData().size()));
-        System.out.println("Number of correct predictions: " + ovaCorrect);
-        System.out.println("Number of test examples: " + wineDataset.getData().size());
+        experimenter.assessLRPerformance("data/wines.train");
     }
 }
 
