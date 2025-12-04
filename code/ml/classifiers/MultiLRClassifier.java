@@ -12,7 +12,10 @@ import ml.data.Example;
 /**
  * Multinomial Logistic Regression classifier (Softmax Regression)
  *
- * @author Pavel Filippov, Tommy Liu
+ * (We acknowledge that the code below was written by ChatGPT due to the time constraint, but we did go over
+ * the code line by line and verified that it was indeed what we wanted.)
+ * 
+ * We wrote the LR Classifier code by ourselves.
  */
 public class MultiLRClassifier implements Classifier {
 
@@ -20,7 +23,6 @@ public class MultiLRClassifier implements Classifier {
     protected double[] b;            // bias per class
     protected double alpha = 0.01;   // learning rate
     protected int iterations = 10;
-    protected double lambda = 0.001;   // L2 regularization strength
 
     private int numClasses;
     private int numFeatures;
@@ -31,6 +33,15 @@ public class MultiLRClassifier implements Classifier {
     public void setIterations(int iterations) {
         this.iterations = iterations;
     }
+
+    /**
+	 * Set the learning rate (alpha) for gradient descent
+	 * 
+	 * @param alpha the learning rate
+	 */
+	public void setLearningRate(double alpha){
+		this.alpha = alpha;
+	}
 
     /** Softmax function */
     private double[] softmax(double[] z) {
@@ -124,7 +135,7 @@ public class MultiLRClassifier implements Classifier {
                     // Update weights
                     for (int f : e.getFeatureSet()) {
                         double x = e.getFeature(f);
-                        W[c][f] -= alpha * (error * x + lambda * W[c][f]);
+                        W[c][f] -= alpha * error * x;
                     }
 
                     // Update bias
@@ -134,4 +145,3 @@ public class MultiLRClassifier implements Classifier {
         }
     }
 }
-
