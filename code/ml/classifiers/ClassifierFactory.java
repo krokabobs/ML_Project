@@ -70,7 +70,8 @@ public class ClassifierFactory {
 			
 			return knn;
 		} else if( classifierType == 3 ){
-			LRClassifier lr = new LRClassifier();
+			// LRClassifier lr = new LRClassifier();
+			MultiLRClassifier lr = new MultiLRClassifier();
 			
 			if( setClassifierParameter ){
 				lr.setIterations(classifierParameter);
